@@ -18,7 +18,29 @@ const InputField: React.FC<InputFieldProps> = ({
     mb
 }) => {
   return (
-    <div>InputField</div>
+    <>
+        <Input 
+            bg="gray.50"
+            name={name}
+            placeholder={placeholder}
+            type={type}
+            mb={mb}
+            fontSize="10pt"
+            _placeholder={{ color: "gray.500" }}
+            _hover={{
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            _focus={{
+              outline: "none",
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+        
+        />
+    </>
   )
 }
 

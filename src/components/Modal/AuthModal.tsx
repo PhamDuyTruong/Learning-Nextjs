@@ -8,9 +8,10 @@ import {
     ModalHeader,
     ModalOverlay,
   } from "@chakra-ui/react";
-  import { useRecoilState, useRecoilValue } from "recoil";
+  import { useRecoilState } from "recoil";
   import { authModalState } from "../../atoms/authModalAtom";
 import ModalWrapper from './ModalWrapper';
+import AuthInput from './AuthInput';
 const AuthModal = () => {
     const [modalState, setModalState] = useRecoilState(authModalState);
     const handleClose = () =>
@@ -42,7 +43,13 @@ const AuthModal = () => {
           pb={6}
       >
         <Flex>
-            
+            {modalState.view === "login" || modalState.view === "signup" ? (
+                <>
+                    <AuthInput toggleView={toggleView}/>
+                </>
+            ): (
+                <div></div>
+            )}
         </Flex>
       </ModalBody>
     </ModalWrapper>
