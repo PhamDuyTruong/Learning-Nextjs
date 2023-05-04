@@ -3,6 +3,9 @@ import { Button, Flex, Text } from "@chakra-ui/react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import {ModalView} from '../../atoms/authModalAtom';
 import InputItem from '../Layout/InputItem';
+import {auth} from '../../firebase/clientApp'
+import {FIREBASE_ERRORS} from '../../firebase/errors'
+
 
 type LoginProps = {
     toggleView: (view: ModalView) => void;
@@ -15,6 +18,9 @@ const Login: React.FC<LoginProps> = ({toggleView}) => {
         email: "",
         password: "",
       });
+      const [formError, setFormError] = useState("");
+
+    const [signInWithEmailAndPassword, _, loading, authError] = useSignInWithEmailAndPassword(auth)
 
   const onChange = ({
     target: { name, value },
@@ -24,8 +30,20 @@ const Login: React.FC<LoginProps> = ({toggleView}) => {
       [name]: value,
     }));
   };
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if(formError) setFormError("");
+    if (!form.email.includes("@")) {
+      return setFormError("Please enter a valid email");
+    }
+
+    signInWithEmailAndPassword(form.email, form.password)
+  }
+
+
   return (  
-    <form>
+    <form onSubmit={onSubmit}>
         <InputItem 
            name="email"
            placeholder="Email"
@@ -39,13 +57,17 @@ const Login: React.FC<LoginProps> = ({toggleView}) => {
             type="password"
             onChange={onChange}
         />
+         <Text textAlign="center" mt={2} fontSize="10pt" color="red">
+        {formError ||
+          FIREBASE_ERRORS[authError?.message as keyof typeof FIREBASE_ERRORS]}
+      </Text>
         <Button
         width="100%"
         height="36px"
         mb={2}
         mt={2}
         type="submit"
-        //isLoading={loading}
+        isLoading={loading}
       >
         Log In
       </Button>
