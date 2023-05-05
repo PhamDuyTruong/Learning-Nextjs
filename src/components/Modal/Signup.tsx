@@ -2,6 +2,11 @@ import React, {useState} from 'react';
 import { Button, Flex, Text } from "@chakra-ui/react";
 import {ModalView} from '../../atoms/authModalAtom'
 import InputItem from '../Layout/InputItem';
+import {auth} from '../../firebase/clientApp';
+import { FIREBASE_ERRORS } from "../../firebase/errors";
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+
+
 type SignUpProps = {
     toggleView: (view: ModalView) => void;
   };
@@ -14,6 +19,10 @@ const Signup: React.FC<SignUpProps> = ({toggleView}) => {
         confirmPassword: "",
       });
 
+      const [formError, setFormError] = useState("");
+      const [createUserWithEmailAndPassword, _, loading, authError] = useCreateUserWithEmailAndPassword(auth);
+
+
       const onChange = ({
         target: { name, value },
       }: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,8 +31,23 @@ const Signup: React.FC<SignUpProps> = ({toggleView}) => {
           [name]: value,
         }));
       };
+
+      const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          if (formError) setFormError("");
+          if (!form.email.includes("@")) {
+            return setFormError("Please enter a valid email");
+          }
+      
+          if (form.password !== form.confirmPassword) {
+            return setFormError("Passwords do not match");
+          }
+
+          createUserWithEmailAndPassword(form.email, form.password);
+      }
+
   return (
-    <form>
+    <form onSubmit={onSubmit}>
          <InputItem 
              name="username"
              placeholder="username"
@@ -51,13 +75,17 @@ const Signup: React.FC<SignUpProps> = ({toggleView}) => {
         type="password"
         onChange={onChange}
       />
+        <Text textAlign="center" mt={2} fontSize="10pt" color="red">
+        {formError ||
+          FIREBASE_ERRORS[authError?.message as keyof typeof FIREBASE_ERRORS]}
+        </Text>
        <Button
         width="100%"
         height="36px"
         mb={2}
         mt={2}
         type="submit"
-        // isLoading={loading}
+        isLoading={loading}
       >
         Sign Up
       </Button>

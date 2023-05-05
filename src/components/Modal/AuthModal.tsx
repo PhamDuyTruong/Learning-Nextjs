@@ -12,8 +12,12 @@ import {
   import { authModalState } from "../../atoms/authModalAtom";
 import ModalWrapper from './ModalWrapper';
 import AuthInput from './AuthInput';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import {auth} from '../../firebase/clientApp'
+import OauthButtons from './OauthButtons';
 const AuthModal = () => {
     const [modalState, setModalState] = useRecoilState(authModalState);
+    const [user, loading, error] = useAuthState(auth)
     const handleClose = () =>
     setModalState((prev) => ({
       ...prev,
@@ -26,6 +30,11 @@ const AuthModal = () => {
           view: view as typeof modalState.view,
         });
       };
+
+      useEffect(() => {
+        if(user) handleClose();
+        console.log("user", user)
+      }, [user])
 
   return (
     <ModalWrapper isOpen={modalState.open} onClose={handleClose}>
@@ -42,9 +51,16 @@ const AuthModal = () => {
           justifyContent="center"
           pb={6}
       >
-        <Flex>
+        <Flex
+             direction="column"
+             alignItems="center"
+             justifyContent="center"
+             width="70%"
+        >
             {modalState.view === "login" || modalState.view === "signup" ? (
                 <>
+                    <OauthButtons />
+                    OR
                     <AuthInput toggleView={toggleView}/>
                 </>
             ): (
