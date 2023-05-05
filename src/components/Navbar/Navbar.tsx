@@ -1,6 +1,6 @@
 import React from 'react'
 import {Flex, Image} from '@chakra-ui/react'
-import Directory from './Directory'
+import Directory from '../HomeDirectory/Directory'
 import SearchInput from './SearchInput'
 import RightNavbar from './RightNavbar/RightNavbar';
 import { useAuthState } from "react-firebase-hooks/auth";
