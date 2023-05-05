@@ -4,6 +4,7 @@ import AuthButtons from './AuthButtons';
 import AuthModal from '@/components/Modal/AuthModal';
 import {User} from 'firebase/auth';
 import Icons from './Icons'
+import MenuWrapper from './Menu/MenuWrapper';
 
 
 type RightContentProps = {
@@ -16,7 +17,7 @@ const RightNavbar: React.FC<RightContentProps> = ({user}) => {
       <AuthModal />
       <Flex justifyContent={"center"} alignItems="center">
           {user ? <Icons /> : <AuthButtons />}
-          
+          <MenuWrapper />
       </Flex>
     </>
   )

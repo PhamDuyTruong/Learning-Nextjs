@@ -87,7 +87,7 @@ const Signup: React.FC<SignUpProps> = ({toggleView}) => {
         type="submit"
         isLoading={loading}
       >
-        Sign Up
+        Sign up
       </Button>
       <Flex fontSize="9pt" justifyContent="center">
         <Text mr={1}>Have an account?</Text>
@@ -97,7 +97,7 @@ const Signup: React.FC<SignUpProps> = ({toggleView}) => {
           cursor="pointer"
           onClick={() => toggleView("login")}
         >
-          Log In
+          Log in
         </Text>
       </Flex>
     </form>

@@ -15,6 +15,7 @@ import AuthInput from './AuthInput';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {auth} from '../../firebase/clientApp'
 import OauthButtons from './OauthButtons';
+import ResetPassword from './ResetPassword';
 const AuthModal = () => {
     const [modalState, setModalState] = useRecoilState(authModalState);
     const [user, loading, error] = useAuthState(auth)
@@ -64,7 +65,10 @@ const AuthModal = () => {
                     <AuthInput toggleView={toggleView}/>
                 </>
             ): (
-                <div></div>
+              <div>
+                   <ResetPassword toggleView={toggleView}/>
+              </div>
+              
             )}
         </Flex>
       </ModalBody>
