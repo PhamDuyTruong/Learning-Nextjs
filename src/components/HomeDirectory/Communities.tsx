@@ -7,7 +7,7 @@ import {useRecoilValue} from 'recoil';
 import {auth} from '../../firebase/clientApp';
 import { useAuthState } from "react-firebase-hooks/auth";
 import MenuListItem from './MenuListItem';
-
+import CreateCommunity from '../Modal/CreateCommunity'
 
 type CommunitiesProps = {
     menuOpen: boolean
@@ -19,6 +19,11 @@ const Communities: React.FC<CommunitiesProps> = ({menuOpen}) => {
     const snippetsTool = useRecoilValue(communityState).mySnippets
   return (
     <>
+        <CreateCommunity 
+            isOpen={open}
+            handleClose={() => setOpen(false)}
+            userId={user?.uid!}
+        />
         {snippetsTool.find((item) => item.isModerater) && (
             <Box mt={3} mb={4}>
                 <Text pl={3} mb={1} fontSize="7pt" fontWeight={500} color="gray.500">
