@@ -11,6 +11,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import useDirectory from '../../hooks/useDirectory'
+import Communities from './Communities';
 
 const Directory = () => {
   const [open, setOpen] = useState(false);
@@ -61,7 +62,7 @@ const Directory = () => {
               </Flex>
             </MenuButton>
             <MenuList maxHeight="300px" overflow="scroll" overflowX="hidden">
-
+                  <Communities menuOpen={isOpen}/> 
             </MenuList>
           </>
         )}
